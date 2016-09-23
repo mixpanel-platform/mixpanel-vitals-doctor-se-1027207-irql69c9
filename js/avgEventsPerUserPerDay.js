@@ -55,7 +55,10 @@ MP.api.jql(avgEventsPerDayScript).done(function(results) {
               min: 0,
               title: {
                   text: 'Average Events',
-                  align: 'high'
+                  align: 'high',
+                  style:{
+                    fontSize: "8px"
+                  }
               },
               labels: {
                   overflow: 'justify'
@@ -82,7 +85,10 @@ MP.api.jql(avgEventsPerDayScript).done(function(results) {
               floating: true,
               borderWidth: 1,
               backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-              shadow: true
+              shadow: true,
+              itemStyle: {
+                fontSize: '8px'
+              }
           },
           credits: {
               enabled: false
