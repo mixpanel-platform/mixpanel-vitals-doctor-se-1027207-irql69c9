@@ -66,7 +66,7 @@ MP.api.jql(campaignAvgEventScript).done(function(results) {
         plotOptions: {
             bar: {
                 dataLabels: {
-                    enabled: true
+                    enabled: false
                 }
             },
             series: {
