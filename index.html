@@ -55,7 +55,7 @@
                   <div class="panel-heading">
                       <div class="row">
                           <div class="col-xs-3">
-                              <i class="fa fa-search fa-4x" aria-hidden="true"></i>
+                              <i class="fa fa-users fa-4x" aria-hidden="true"></i>
                           </div>
                           <div class="col-xs-9 text-right">
                               <div class="huge" id="dau-header">0</div>
@@ -221,26 +221,6 @@
       </div>
       <div class="row" id="headers">
           <div class="col-sm-12">
-            <h4 class="text-center text-muted" id="avg-campaign-header" style="display: none;"><u>Avg. Events Per User By Campaign</u></h4>
-          </div>
-        </div>
-      <div class="row">
-          <div class="col-sm-12">
-            <div id='events-per-user-per-campaign-chart'></div>
-          </div>
-        </div>
-      <div class="row" id="headers">
-          <div class="col-sm-12">
-            <h4 class="text-center text-muted" id="avg-per-user-header" style="display: none;"><u>Avg. Events Per User</u></h4>
-          </div>
-        </div>
-      <div class="row">
-          <div class="col-sm-12">
-            <div id='avg-events-per-user-per-day-chart'></div>
-          </div>
-        </div>
-      <div class="row" id="headers">
-          <div class="col-sm-12">
             <h4 class="text-center text-muted" id="bounce-rate-header" style="display: none;"><u>Campaign Bounce Rate</u></h4>
           </div>
         </div>
@@ -248,6 +228,22 @@
         <div class="col-sm-12">
           <div id='campaign-bounce-rate'></div>
         </div>
+      </div>
+      <div class="row" id="headers">
+          <div class="col-sm-6">
+            <h4 class="text-center text-muted" id="avg-campaign-header" style="display: none;"><u>Avg. Events Per User By Campaign</u></h4>
+          </div>
+          <div class="col-sm-6">
+            <h4 class="text-center text-muted" id="avg-per-user-header" style="display: none;"><u>Avg. Events Per User</u></h4>
+          </div>
+        </div>
+      <div class="row">
+          <div class="col-sm-6">
+            <div id='events-per-user-per-campaign-chart'></div>
+          </div>
+          <div class="col-sm-6">
+            <div id='avg-events-per-user-per-day-chart'></div>
+          </div>
       </div>
     </div>
     <!--dialogue modal for entering revenue-->
@@ -311,6 +307,8 @@
       var queuedDataForSaving =[]
       //global placeholder to push changes into queuedDataForSaving array
       var changeDetails
+      //set the default Mixpanel colors for all highcharts charts
+      var chartColors = ['#53A3EB', '#32bbbd', '#a28ccb', '#da7b80', '#2bb5e2', '#e8bc66', '#d390b6', '#a0a7d6', '#e8cc75','#f3ba41','#7d92cd','#24be86']
     </script>
     <!-- enable saving of the dashboard-->
     <script type="text/javascript" src="js/saveAll.js"></script>
@@ -514,7 +512,7 @@
 
       var a = new Date();
       var d = new Date();
-      d.setMonth(d.getMonth() - 1);
+      d.setMonth(d.getMonth() - 2);
       var aMonthAgo = new Date(d).toISOString().split("T")[0]
 
       function main() {
@@ -531,7 +529,7 @@
       }
 
       function getDay(event) {
-        return new Date(event.time).toISOString().substr(0, 10);
+        return new Date(event.time).toISOString().substr(0, 7);
       }
     </script>
     <!-- jql for events by campaign by user by day -->
@@ -540,7 +538,7 @@
 
       var a = new Date();
       var d = new Date();
-      d.setMonth(d.getMonth() - 1);
+      d.setMonth(d.getMonth() - 2);
       var aMonthAgo = new Date(d).toISOString().split("T")[0]
 
       function main() {
@@ -548,7 +546,7 @@
           from_date: aMonthAgo,
           to_date:   today
         })
-        .groupByUser([utm, getDay], function(state, events) {
+        .groupByUser([utm, getMonth], function(state, events) {
           state = state || 0;
           _.each(events, function(event) {state++;});
           return state;
@@ -561,8 +559,8 @@
         .groupBy([item => item.key[1],item => item.key[2]],mixpanel.reducer.numeric_summary(state => state.value))
       }
 
-      function getDay(event) {
-        return new Date(event.time).toISOString().substr(0, 10);
+      function getMonth(event) {
+        return new Date(event.time).toISOString().substr(0, 7);
       }
       function utm(event){
         return event.properties.utm_campaign

@@ -17,16 +17,16 @@ MP.api.segment('View Doctor', {from: moment().subtract(30, 'days'), unit: 'day'}
   console.log("loans header", todaysLoans);
 	$('#revenue-header').text(addCommas(todaysLoans));
 });
-MP.api.segment('Search', {from: moment().subtract(30, 'days'), unit: 'month', 'on': 'properties["mp_country_code"]'}).done(function(results) {
-	//chart monthly transfer date
-  var cityData = results.sum().values()
-  console.log("city data", cityData)
-  $('#searches-map-header').show()
-  var searchesMap = $('#searches-map').MPChart({chartType: 'map', highchartsOptions: {  // Create a line chart
-    legend: {
-      enabled: false,
-      y:-7
-    },
-  }});
-  searchesMap.MPChart('setData', cityData); // Set the chart's data
-});
+// MP.api.segment('Search', {from: moment().subtract(30, 'days'), unit: 'month', 'on': 'properties["mp_country_code"]'}).done(function(results) {
+// 	//chart monthly transfer date
+//   var cityData = results.sum().values()
+//   console.log("city data", cityData)
+//   $('#searches-map-header').show()
+//   var searchesMap = $('#searches-map').MPChart({chartType: 'map', highchartsOptions: {  // Create a line chart
+//     legend: {
+//       enabled: false,
+//       y:-7
+//     },
+//   }});
+//   searchesMap.MPChart('setData', cityData); // Set the chart's data
+// });
